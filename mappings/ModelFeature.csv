@@ -6260,6 +6260,7 @@ FDID,Value
 197007,Particles
 197007,Sounds
 197008,Particles
+197008,Sounds
 197009,Particles
 197009,Sounds
 197010,Particles
@@ -57455,6 +57456,7 @@ FDID,Value
 6648659,Sounds
 6648719,Particles
 6648719,Animations
+6650906,Particles
 6652278,Particles
 6652279,Particles
 6652280,Particles
@@ -57704,6 +57706,7 @@ FDID,Value
 6697874,Lights
 6697874,Particles
 6697874,Animations
+6697874,Sounds
 6697875,Particles
 6697875,Sounds
 6697876,Particles
@@ -58032,8 +58035,10 @@ FDID,Value
 6730408,Animations
 6730441,Particles
 6730441,Animations
+6730441,Sounds
 6730443,Particles
 6730443,Animations
+6730443,Sounds
 6730460,Lights
 6730460,Particles
 6730460,Animations
@@ -58776,6 +58781,7 @@ FDID,Value
 6797206,Sounds
 6797420,Particles
 6797420,Animations
+6797420,Sounds
 6798751,Animations
 6798753,Particles
 6798753,Animations
@@ -59468,6 +59474,7 @@ FDID,Value
 7013717,Particles
 7013717,Animations
 7013988,Animations
+7013988,Sounds
 7013989,Particles
 7013989,Animations
 7013990,Particles
@@ -59687,6 +59694,7 @@ FDID,Value
 7096210,Lights
 7096210,Animations
 7096216,Particles
+7096216,Sounds
 7096217,Lights
 7096217,Animations
 7096219,Lights
@@ -60118,6 +60126,8 @@ FDID,Value
 7216248,Lights
 7216248,Particles
 7216248,Sounds
+7222038,Animations
+7222039,Animations
 7227130,Animations
 7227131,Animations
 7227132,Animations
@@ -61315,3 +61325,6 @@ FDID,Value
 7678319,Animations
 7696849,Particles
 7696849,Animations
+7701099,Animations
+7704420,Particles
+7704420,Animations
