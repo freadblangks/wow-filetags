@@ -14,6 +14,7 @@ namespace TagTool
                 Console.WriteLine("  rewrite <repository_path>");
                 Console.WriteLine("  tag <repository_path> <fdid> <tagKey> <tagValue> <tagSource>");
                 Console.WriteLine("  autotag <repository_path> <tact_product> (taggers)");
+                Console.WriteLine("  export <repository_path> <output_path> <type>");
                 return;
             }
 
@@ -54,9 +55,24 @@ namespace TagTool
 
                 repo.Save();
             }
+            else if(mode == "export")
+            {
+                var repo = new WoWTagLib.DataSources.Repository(args[1], verify: false, verbose: true);
+                var outputPath = args[2];
+                var type = args[3];
+                if (type == "sqlite")
+                {
+                    var exporter = new Exporters.SQLiteExporter(repo);
+                    exporter.Export(outputPath);
+                }
+                else
+                {
+                    throw new Exception("Unsupported export type: " + type);
+                }
+            }
             else
             {
-                Console.WriteLine("Unknown mode. Supported modes are: rewrite, tag");
+                Console.WriteLine("Unknown mode. Supported modes are: rewrite, tag, autotag, export");
             }
         }
     }

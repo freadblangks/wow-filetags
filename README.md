@@ -53,8 +53,33 @@ Mappings between FileDataIDs and tag values split up by preset option. This is f
 - FDID: FileDataID of file
 
 ## Release formats
-### SQLite database
+### Zipped CSVs (csv.zip)
+Zipped `meta`, `presets` and `mappings` folders.
+
+### SQLite database (sqlite.zip/tags.db)
 A pre-compiled SQLite database. Any IDs outside of FileDataIDs are *not* considered stable and can/will change in future releases.
 
 #### Tables
-TODO
+`wow_tags`: List of tags, corresponds to `meta/tags.csv`
+- `id` (INTEGER PRIMARY KEY AUTOINCREMENT): Internal ID (not stable between releases)
+- `key` (TEXT, UNIQUE): Tag key
+- `name` (TEXT): Tag name
+- `description` (TEXT): Tag description
+- `type` (TEXT): Tag type (Preset, PresetSplit, Custom)
+- `source` (TEXT): Tag source (Auto, Manual)
+- `category` (TEXT): Tag category
+- `allow_multiple` (INTEGER): Whether multiple values are allowed (0 or 1)
+- `status` (TEXT): Tag status (Supported, WIP, Planned, Deprecated)
+
+`wow_tag_presets`: Preset options for tags
+- `id` (INTEGER PRIMARY KEY AUTOINCREMENT): Internal ID (not stable between releases)
+- `tag_key` (TEXT): Reference to tag key
+- `option` (TEXT): Preset option name
+- `description` (TEXT): Option description
+- `aliases` (TEXT): Comma-separated list of aliases
+
+`wow_tag_mappings`: Mappings between FileDataIDs and tag values
+- `id` (INTEGER PRIMARY KEY AUTOINCREMENT): Internal ID (not stable between releases)
+- `filedataid` (INTEGER): FileDataID of the file
+- `tag_id` (INTEGER): Reference to `wow_tags.id`
+- `value` (TEXT): Tag value

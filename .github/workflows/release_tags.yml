@@ -1,0 +1,63 @@
+name: Compile & release tags
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - mappings/**
+      - presets/**
+      - meta/**
+jobs:
+  compile-bdbd:
+    name: Build ZIP/DB and release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set tag name
+      run: echo "NOW=$(date +'%Y%m%d%H%M')" >> $GITHUB_ENV
+    - name: Create tag
+      uses: actions/github-script@v5
+      with:
+        script: |
+          github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ env.NOW }}',
+              sha: context.sha
+          })
+    - name: Checkout repo
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 10.0.x
+    - name: Compile SQLite database
+      run: mkdir -p ${{ github.workspace }}/tmp/sqlite && dotnet run --project ${{ github.workspace }}/tools/C#/wow-filetags/TagTool --configuration Release -- export ${{ github.workspace }} tmp/sqlite/tags.db sqlite
+    - name: Copy CSVs to temporary directory
+      run: mkdir -p ${{ github.workspace }}/tmp/csv && cp -r ${{ github.workspace }}/mappings ${{ github.workspace }}/tmp/csv/ && cp -r ${{ github.workspace }}/presets ${{ github.workspace }}/tmp/csv/ && cp -r ${{ github.workspace }}/meta ${{ github.workspace }}/tmp/csv/
+    - name: Archive CSVs
+      uses: thedoctor0/zip-release@main
+      with:
+        directory: ${{ github.workspace }}/tmp/csv
+        type: 'zip'
+        filename: ${{ github.workspace }}/tmp/csv.zip
+    - name: Archive SQLite database
+      uses: thedoctor0/zip-release@main
+      with:
+        directory: ${{ github.workspace }}/tmp/sqlite
+        type: 'zip'
+        filename: ${{ github.workspace }}/tmp/sqlite.zip
+    - name: Create Release
+      id: create_release
+      uses: softprops/action-gh-release@v0.1.13
+      with:
+        name: Tags v${{ env.NOW }}
+        draft: false
+        body: Current tags at time of this release.
+        prerelease: false
+        tag_name: ${{ env.NOW }}    
+        files: |
+            ${{ github.workspace }}/tmp/csv.zip
+            ${{ github.workspace }}/tmp/sqlite.zip
