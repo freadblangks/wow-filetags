@@ -26,6 +26,9 @@ namespace WoWTagLib.AutoTagging.Taggers
                 "wow_classic_era", 
                 "wow_classic_era_ptr", 
                 //"wow_classic_era_beta" 
+
+                // Anniversary
+                "wow_anniversary"
             };
 
             var productToTagOption = new Dictionary<string, string>();
